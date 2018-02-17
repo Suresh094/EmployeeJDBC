@@ -31,7 +31,8 @@ public class EmployeeApplication {
 				System.out.println("5 Display Employee By Id        |");
 				System.out.println("6 SortEmployees                 |");
 				System.out.println("7 getHighestSalaryEmployee      |");
-				System.out.println("8 EXIT                          |");
+				System.out.println("8 Get Employee Gross Salary     |");
+				System.out.println("9 EXIT                          |");
 				System.out.println("=================================");
 				int operation;
 				try {
@@ -65,6 +66,9 @@ public class EmployeeApplication {
 					getHighestSalaryEmployee(sc);
 					break;
 				case 8:
+					getEmployeeGrossSalary(sc);
+					break;
+				case 9:
 					System.exit(0);
 					break;
 				}
@@ -73,6 +77,22 @@ public class EmployeeApplication {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	private static void getEmployeeGrossSalary(Scanner sc) {
+		System.out.println("Enter Employee ID : ");
+		int id = sc.nextInt();
+		double salary = 0;
+		try {
+			salary = emp.getEmployeeGrossSalary(id);
+		} catch (EmployeeNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (salary == 0)
+			System.out.println("Provided Employee Id not valid");
+		else
+			System.out.println("Employee id : " + id + " , Gross Salary : " + salary);
+
 	}
 
 	private static void sortEmployees(Scanner sc) {

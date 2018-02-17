@@ -24,4 +24,6 @@ public interface EmployeeServices {
 
 	double getEmployeeHRA(int id);
 
+	double getEmployeeGrossSalary(int id) throws EmployeeNotFoundException;
+
 }

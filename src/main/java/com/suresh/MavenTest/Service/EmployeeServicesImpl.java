@@ -76,5 +76,68 @@ public class EmployeeServicesImpl implements EmployeeServices {
 		}
 		return 0.0;
 	}
+		
+		@Override
+		public double getEmployeeGrossSalary(int id) throws EmployeeNotFoundException {
+			try {
+				double grossSalary = 0;
+				Employee e = dao.getEmployeeById(id);
+				
+				if ((e != null) && id == e.getId()) {
+					if (e.getSalary() < 10000) {
+						double hra = this.getEmployeeHRA(1);
+						double allowence = 0.08 * e.getSalary();
+						hra = 0.15 * e.getSalary();
+						//e.setDailyAllowence(allowence);
+						//e.setHra(hra);
+						grossSalary = hra + allowence + e.getSalary();
+						//e.setGrossSalary(grossSalary);
 
+					return grossSalary;
+
+					} else if (e.getSalary() < 20000) {
+						double allowence = 0.10 * e.getSalary();
+						double hra = 0.20 * e.getSalary();
+						grossSalary = hra + allowence + e.getSalary();
+						//e.setGrossSalary(grossSalary);
+
+					return grossSalary;
+
+					} else if (e.getSalary() < 30000 && e.getAge() >= 40) {
+						double allowence = 0.15 * e.getSalary();
+						double hra = 0.27 * e.getSalary();
+
+						grossSalary = hra + allowence + e.getSalary();
+						//e.setGrossSalary(grossSalary);
+
+						return grossSalary;
+
+					} else if (e.getSalary() < 30000 && e.getAge() < 40) {
+						double allowence = 0.15 * e.getSalary();
+						double hra = 0.27 * e.getSalary();
+						
+						grossSalary = hra + allowence + e.getSalary();
+						//e.setGrossSalary(grossSalary);
+
+						return grossSalary;
+
+					} else {
+						double allowence = 0.17 * e.getSalary();
+						double hra = 0.30 * e.getSalary();
+						
+						grossSalary = hra + allowence + e.getSalary();
+						//e.setGrossSalary(grossSalary);
+
+						return grossSalary;
+
+					}
+				
+			} 
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return 0.0;
+
+
+		}
 }
