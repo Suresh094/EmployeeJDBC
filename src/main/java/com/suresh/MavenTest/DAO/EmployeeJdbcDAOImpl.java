@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 
 import javax.sql.DataSource;
 
-import com.suresh.MavenTest.DBCPDataSourceFactory;
 import com.suresh.MavenTest.MyDataSourceFactory;
 import com.suresh.MavenTest.Entity.Employee;
 import com.suresh.MavenTest.Exceptions.EmployeeNotFoundException;
