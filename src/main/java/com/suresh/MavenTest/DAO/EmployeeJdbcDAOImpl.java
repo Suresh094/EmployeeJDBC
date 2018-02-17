@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 
 import javax.sql.DataSource;
 
+import com.suresh.MavenTest.DBCPDataSourceFactory;
 import com.suresh.MavenTest.MyDataSourceFactory;
 import com.suresh.MavenTest.Entity.Employee;
 import com.suresh.MavenTest.Exceptions.EmployeeNotFoundException;
@@ -20,10 +21,11 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 
 	private DataSource ds = MyDataSourceFactory.getMySQLDataSource();
 
+	
 	@Override
 	public boolean addEmployee(List<Employee> list) throws InvalidSalaryException, SQLException {
 		PreparedStatement pstmt = null;
-		try (Connection con = ds.getConnection()) {
+		try (Connection con = ds.getConnection();) {
 			for (Employee e : list) {
 				con.setAutoCommit(false);
 				pstmt = con.prepareStatement(
@@ -43,7 +45,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 	public boolean deleteEmployee(int empID) throws EmployeeNotFoundException, SQLException {
 		if (getEmployeeById(empID) != null) {
 			ResultSet rs = null;
-			try (Connection con = ds.getConnection()) {
+			try (Connection con = ds.getConnection();) {
 				PreparedStatement pstmt = con.prepareStatement("delete from employee where id=?");
 				pstmt.setInt(1, empID);
 				pstmt.setInt(1, empID);
@@ -59,7 +61,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String name = empl.getName();
-		try (Connection con = ds.getConnection()) {
+		try (Connection con = ds.getConnection();) {
 			pstmt = con
 					.prepareStatement("update employee set name=?, age=?, salary=?,departmentNumber=?  where id = ?");
 			pstmt.setString(1, empl.getName());
@@ -75,7 +77,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 	public Employee getEmployeeById(int empID) throws EmployeeNotFoundException, SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try (Connection con1 = ds.getConnection()) {
+		try (Connection con1 = ds.getConnection();) {
 			pstmt = con1.prepareStatement("select * from employee where id = ?");
 			pstmt.setInt(1, empID);
 			rs = pstmt.executeQuery();
@@ -98,7 +100,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<Employee> employeesList = new ArrayList<>();
-		try (Connection con = ds.getConnection()) {
+		try (Connection con = ds.getConnection();) {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery("select * from employee");
 			while (rs.next()) {
@@ -118,7 +120,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> employeesList = new ArrayList<>();
-		try (Connection con = ds.getConnection()) {
+		try (Connection con = ds.getConnection();) {
 			String sqlQuery = null;
 			if (str.equalsIgnoreCase("id")) {
 				sqlQuery = "select * from employee order by id";
@@ -153,7 +155,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Employee> employeesList = new ArrayList<>();
-		try (Connection con = ds.getConnection()) {
+		try (Connection con = ds.getConnection();) {
 			pstmt = con.prepareStatement("select * from employee where salary>?");
 			pstmt.setDouble(1, salary);
 			rs = pstmt.executeQuery();
@@ -177,7 +179,7 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 		int salary = 0;
 		try (Connection con = ds.getConnection();
 				PreparedStatement statement = con
-						.prepareStatement("select salary from imcs.employee where empid = ? ")) {
+						.prepareStatement("select salary from employee where empid = ? ");) {
 			statement.setInt(1, id);
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
@@ -191,5 +193,6 @@ public class EmployeeJdbcDAOImpl implements EmployeeDAOOperations {
 		}
 		return salary;
 	}
+	
 
 }
